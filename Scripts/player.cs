@@ -7,12 +7,16 @@ public class player : MonoBehaviour
     [SerializeField]
     private Vector3 offset;
     private Camera maincam;
-    //[SerializeField]
-    //private float speed = 500;
+    public float speed = 10;
+    public float foots_follow_speed = 10;
     [SerializeField]
     private GameObject left_foot_target;
     [SerializeField]
     private GameObject right_foot_target;
+    [SerializeField]
+    private GameObject left_foot_step;
+    [SerializeField]
+    private GameObject right_foot_step;
     void Awake()
     {
         maincam = Camera.main;
@@ -26,13 +30,11 @@ public class player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            left_foot_target.transform.position += Vector3.forward * Time.deltaTime;
-            //right_foot_target.transform.position += Vector3.forward * Time.deltaTime;
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            left_foot_target.transform.position += Vector3.back * Time.deltaTime;
-            //right_foot_target.transform.position += Vector3.back * Time.deltaTime;
+            transform.Translate(Vector3.back * speed * Time.deltaTime);
         }
         //transform.Translate(Vector3.forward * speed * Time.deltaTime);
         //if (Input.GetKey(KeyCode.S))
@@ -50,6 +52,11 @@ public class player : MonoBehaviour
 
     void Update()
     {
+        camera_follow();
         player_move();
+        if (Vector3.Distance(left_foot_step.transform.position, left_foot_target.transform.position) > 1)
+            left_foot_target.transform.position = left_foot_step.transform.position;
+        if (Vector3.Distance(right_foot_step.transform.position, right_foot_target.transform.position) > 1)
+            right_foot_target.transform.position = right_foot_step.transform.position;
     }
 }
