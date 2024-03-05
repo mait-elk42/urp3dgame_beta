@@ -54,9 +54,11 @@ public class player : MonoBehaviour
     {
         camera_follow();
         player_move();
-        if (Vector3.Distance(left_foot_step.transform.position, left_foot_target.transform.position) > 1)
+        if (Vector3.Distance(left_foot_step.transform.position, left_foot_target.transform.position) > 0.1)
+            left_foot_step.transform.Translate(Vector3.up * Time.deltaTime);
+        if (Vector3.Distance(left_foot_step.transform.position, left_foot_target.transform.position) > 0.6)
             left_foot_target.transform.position = left_foot_step.transform.position;
-        if (Vector3.Distance(right_foot_step.transform.position, right_foot_target.transform.position) > 1)
+        if (Vector3.Distance(right_foot_step.transform.position, right_foot_target.transform.position) > 0.6)
             right_foot_target.transform.position = right_foot_step.transform.position;
     }
 }
