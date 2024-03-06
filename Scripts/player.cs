@@ -13,17 +13,22 @@ public class player : MonoBehaviour
     private GameObject left_foot_target;
     [SerializeField]
     private GameObject right_foot_target;
-    [SerializeField]
-    private GameObject left_foot_step;
-    [SerializeField]
-    private GameObject right_foot_step;
+    [SerializeField] private Vector3 offset_left_targ;
+    [SerializeField] private Vector3 offset_right_targ;
+
+
+
+    public float rotationSpeed = 50f; // Speed of rotation
+    public float radius = 2f; // Radius of the circular path
+    private Vector3 ccenterPosition; // Center of the circular path
+
     void Awake()
     {
         maincam = Camera.main;
     }
     void Start()
     {
-        
+        ccenterPosition = transform.parent.position;
     }
 
     void player_move()
@@ -54,11 +59,33 @@ public class player : MonoBehaviour
     {
         camera_follow();
         player_move();
-        if (Vector3.Distance(left_foot_step.transform.position, left_foot_target.transform.position) > 0.1)
-            left_foot_step.transform.Translate(Vector3.up * Time.deltaTime);
-        if (Vector3.Distance(left_foot_step.transform.position, left_foot_target.transform.position) > 0.6)
-            left_foot_target.transform.position = left_foot_step.transform.position;
-        if (Vector3.Distance(right_foot_step.transform.position, right_foot_target.transform.position) > 0.6)
-            right_foot_target.transform.position = right_foot_step.transform.position;
+
+
+        //print("Left Foot :" + Vector3.Distance(left_foot_target.transform.position, transform.position + offset_left_targ));
+        //if (Vector3.Distance(left_foot_target.transform.position, transform.position + offset_left_targ) > 0.5)
+        //    left_foot_target.transform.position = transform.position + offset_left_targ;
+
+
+
+        //print("Right Foot :" + Vector3.Distance(right_foot_target.transform.position, transform.position + offset_right_targ));
+        //if (Vector3.Distance(right_foot_target.transform.position, transform.position + offset_right_targ) > 0.5)
+        //    right_foot_target.transform.position = transform.position + offset_right_targ;
+
+
+        //right_foot_target.transform.position = right_foot_step.transform.position;
+
+    }
+    private void OnDrawGizmos()
+    {
+        float angle = Time.time * rotationSpeed; // Time.time gives us the time since the start of the game
+        float x = ccenterPosition.x + Mathf.Cos(angle) * radius;
+        float z = ccenterPosition.z + Mathf.Sin(angle) * radius;
+
+        // Set the object's position to the calculated position
+        transform.position = new Vector3(x, transform.position.y, z);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(new Vector3(x, 1, z), 0.1f);
+        //Gizmos.DrawSphere(transform.position + offset_right_targ, 0.1f);
+        //Gizmos.DrawSphere(transform.position + offset_left_targ, 0.1f);
     }
 }
