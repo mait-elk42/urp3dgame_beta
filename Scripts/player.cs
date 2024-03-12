@@ -1,55 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class player : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private Vector3 offset;
-    private Camera maincam;
-    //[SerializeField]
-    //private float speed = 500;
-    [SerializeField]
-    private GameObject left_foot_target;
-    [SerializeField]
-    private GameObject right_foot_target;
+    private PlayerCamera player_cam;
+    public float xsens = 10f;
+    public float ysens = 10f;
     void Awake()
     {
-        maincam = Camera.main;
+        this.player_cam = new PlayerCamera(this.gameObject, Camera.main, 5, xsens, ysens);
     }
-    void Start()
-    {
-        
-    }
-
-    void player_move()
-    {
-        if (Input.GetKey(KeyCode.W))
-        {
-            left_foot_target.transform.position += Vector3.forward * Time.deltaTime;
-            //right_foot_target.transform.position += Vector3.forward * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            left_foot_target.transform.position += Vector3.back * Time.deltaTime;
-            //right_foot_target.transform.position += Vector3.back * Time.deltaTime;
-        }
-        //transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        //if (Input.GetKey(KeyCode.S))
-        //    transform.Translate(Vector3.back * speed * Time.deltaTime);
-        //if (Input.GetKey(KeyCode.A))
-        //    transform.Translate(Vector3.left * speed * Time.deltaTime);
-        //if (Input.GetKey(KeyCode.D))
-        //    transform.Translate(Vector3.right * speed * Time.deltaTime);
-    }
-
-    void camera_follow()
-    {
-        maincam.transform.position = Vector3.Lerp(maincam.transform.position, this.transform.position + offset, 10);
-    }
-
     void Update()
     {
-        player_move();
+        player_cam.Follow(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
     }
 }
