@@ -20,6 +20,7 @@ public class PlayerCamera
         this.camera_offset = camera_offset;
         this.y_min = y_min;
         this.y_max = y_max;
+        main_camera.transform.position = player.transform.position + camera_offset;
     }
 
     public void enable()
