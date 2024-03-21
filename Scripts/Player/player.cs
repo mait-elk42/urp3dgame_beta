@@ -16,9 +16,18 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+        bool up = false;
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, transform.forward , out hit, 2f, LayerMask.GetMask("Default")))
+        {
+            Debug.Log("asdasdasd" + hit.collider.name);
+            if (hit.collider.tag == "Stairs")
+                up = true;
+        }
         player_camera.Update(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         player_mover.Update(Input.GetAxis("Vertical"),
                             Input.GetAxis("Horizontal"),
-                            Input.GetKeyDown(KeyCode.Space));
+                            Input.GetKeyDown(KeyCode.Space),
+                            up);
     }
 }
