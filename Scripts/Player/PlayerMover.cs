@@ -16,17 +16,21 @@ public class PlayerMover
         this.speed = speed;
     }
 
-    public void Update(float forward, float right, bool jumpbool, bool up)
+    public void Update(float forward, float right, bool jumpbool)
     {
-        bool player_grounded = controller.isGrounded;
-        if (up)
-            dir = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(right, forward, 0);
+        bool is_grounded = controller.isGrounded;
+        dir = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(right, dir.y, forward);
+        if (jumpbool && is_grounded)
+            dir.y = jump_force;
         else
-            dir = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(right, 0, forward);
-        if (jumpbool && player_grounded)
-            dir.y += jump_force;
-        if (!up)
+        {
             dir.y += gravity_force * Time.deltaTime;
+            if (is_grounded)
+                dir.y = 0f;
+        }
         controller.Move(dir * speed * Time.deltaTime);
+        if (jumpbool && controller.isGrounded)
+            Debug.Log(dir * speed * Time.deltaTime);
+         Debug.Log("DIRECTION : " + dir);
     }
 }
