@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         player_camera = new PlayerCamera(this.gameObject, Camera.main, 400f, Vector3.zero, -70f, 70f);
-        player_mover = new PlayerMover(transform.GetComponent<CharacterController>(), -9.87f, 3f, 10f);
+        player_mover = new PlayerMover(transform.GetComponent<CharacterController>(), -60f, 20f, 10f);
     }
     void Start()
     {
